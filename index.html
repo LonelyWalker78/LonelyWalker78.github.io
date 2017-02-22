@@ -1,28 +1,749 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>Bootstrap 101 Template</title>
+<html>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<style>
+			
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+				-webkit-touch-callout: none
+			}
+			
+			body,
+			html {
+				height: 100%
+			}
+			
+			html {
+				font-family: Helvetica Neue, Helvetica, STHeiTi, Arial, sans-serif;
+				-ms-text-size-adjust: 100%;
+				-webkit-text-size-adjust: 100%;
+				font-size: 62.5%
+			}
+			
+			body {
+				margin: 0;
+				font-size: 1.4rem;
+				line-height: 1.5;
+				color: #333;
+				background-color: #fff
+			}
+			
+			blockquote,
+			body,
+			button,
+			dd,
+			dl,
+			dt,
+			fieldset,
+			form,
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6,
+			hr,
+			input,
+			legend,
+			li,
+			ol,
+			p,
+			pre,
+			td,
+			textarea,
+			th,
+			ul {
+				margin: 0;
+				padding: 0
+			}
+			
+			body,
+			button,
+			input,
+			select,
+			textarea {
+				font: 15px/1.5 Microsoft YaHei, arial, \5b8b\4f53, sans-serif
+			}
+			
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-size: 100%
+			}
+			
+			address,
+			cite,
+			dfn,
+			em,
+			var {
+				font-style: normal
+			}
+			
+			code,
+			kbd,
+			pre,
+			samp {
+				font-family: courier new, courier, monospace
+			}
+			
+			small {
+				font-size: 12px
+			}
+			
+			ol,
+			ul {
+				list-style: none
+			}
+			
+			a,
+			a:hover,
+			li {
+				font-size: 16px
+			}
+			
+			a,
+			a:hover {
+				text-decoration: none
+			}
+			
+			legend {
+				color: #000
+			}
+			
+			fieldset,
+			img {
+				border: 0
+			}
+			
+			button,
+			input,
+			select,
+			textarea {
+				font-size: 100%
+			}
+			
+			button {
+				-webkit-appearance: none;
+				border: 0;
+				background: 0 0
+			}
+			
+			button,
+			input,
+			select,
+			textarea {
+				outline: none
+			}
+			
+			a,
+			input,
+			select,
+			textarea {
+				outline: 0
+			}
+			
+			::-webkit-input-placeholder {
+				font-size: 16px;
+				font-family: Microsoft YaHei;
+				color: #cfcfcf
+			}
+			
+			table {
+				border-collapse: collapse;
+				border-spacing: 0
+			}
+			
+			img {
+				margin: 0;
+				padding: 0;
+				border: none;
+				vertical-align: middle
+			}
+			
+			.clear:after,
+			.clear:before {
+				content: "";
+				display: table
+			}
+			
+			.clear:after {
+				clear: both
+			}
+			
+			.clear {
+				zoom: 1
+			}
+			
+			.layout_left {
+				background-color: #15b5e9
+			}
+			
+			@media all and (min-width:960px) {
+				.layout_left,
+				.layout_right {
+					position: fixed;
+					top: 0;
+					bottom: 0
+				}
+				.layout_left {
+					width: 400px;
+					border-right: 1px solid #ccc;
+					background-color: #15b5e9;
+					overflow-x: hidden;
+					z-index: 100
+				}
+				.layout_right {
+					position: relative;
+					left: 0;
+					right: 0;
+					padding: 5px 20px;
+					margin-left: 400px;
+					overflow: hidden;
+					background-color: #fff
+				}
+			}
+			
+			.loadbg {
+				position: fixed;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #15b5e9;
+				z-index: 999
+			}
+			
+			.loading {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 80px;
+				height: 80px;
+				margin-left: -40px;
+				margin-top: -40px
+			}
+			
+			.double-bounce1,
+			.double-bounce2 {
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+				background-color: #fff;
+				opacity: .6;
+				position: absolute;
+				top: 0;
+				left: 0;
+				-webkit-animation: bounce 2s infinite ease-in-out;
+				animation: bounce 2s infinite ease-in-out
+			}
+			
+			.double-bounce2 {
+				-webkit-animation-delay: -1s;
+				animation-delay: -1s
+			}
+			
+			@-webkit-keyframes bounce {
+				0%,
+				to {
+					-webkit-transform: scale(0)
+				}
+				50% {
+					-webkit-transform: scale(1)
+				}
+			}
+			
+			@keyframes bounce {
+				0%,
+				to {
+					transform: scale(0);
+					-webkit-transform: scale(0)
+				}
+				50% {
+					transform: scale(1);
+					-webkit-transform: scale(1)
+				}
+			}
+			
+			.author {
+				width: 100%;
+				color: #fff;
+				text-align: center;
+				padding: 30px 0
+			}
+			
+			.author .avatar {
+				width: 100px!important;
+				height: 100px!important;
+				border: 2px solid #fff;
+				border-radius: 50%;
+				display: block;
+				margin: 0 auto!important
+			}
+			
+			.author .name {
+				text-align: center;
+				line-height: 40px!important;
+				font-size: 20px;
+				font-weight: 750;
+				line-height: 40px
+			}
+			
+			.author p {
+				text-align: center;
+				text-indent: 0!important
+			}
+			
+			@media all and (min-width:960px) {
+				.author {
+					padding: 200px 0 20px
+				}
+				.author .name {
+					font-size: 30px;
+					margin: 20px auto
+				}
+			}
+			
+			.social {
+				width: 60%;
+				margin: 0 auto!important
+			}
+			
+			.social li {
+				display: block;
+				width: 33.33333%;
+				height: 50px;
+				float: left
+			}
+			
+			.social li img {
+				display: block;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin: 0 auto
+			}
+			
+			.app-title {
+				font-size: 25px;
+				text-align: center;
+				padding: 15px
+			}
+			
+			.menu {
+				display: block;
+				width: 100%;
+				height: 50px;
+				margin: 20px auto 0!important
+			}
+			
+			.menu-btn {
+				float: left;
+				width: 33.33333%;
+				height: 30px;
+				color: #fff;
+				text-align: center;
+				margin: 0!important
+			}
+			
+			.menu-btn a,
+			.menu-btn a:hover {
+				color: #fff;
+				text-decoration: none
+			}
+			
+			.menu-ative {
+				border-bottom: 2px solid #fff
+			}
+			
+			.copyright {
+				display: none
+			}
+			
+			@media all and (min-width:960px) {
+				.copyright {
+					display: block;
+					position: absolute;
+					width: 100%;
+					bottom: 0
+				}
+				.copyright p {
+					font-size: 13px;
+					color: #fff;
+					padding: 10px 0;
+					text-align: center
+				}
+			}
+			
+			[v-cloak] {
+				display: none
+			}
+			
+			.page-list {
+				background-color: #eee
+			}
+			
+			.page-list li {
+				padding: 15px;
+				margin-bottom: 15px;
+				-webkit-touch-callout: none;
+				background-color: #fff
+			}
+			
+			.page-list li:last-child {
+				margin-bottom: 0
+			}
+			
+			.page-list li a {
+				color: #383838
+			}
+			
+			.page-list li a:hover {
+				text-decoration: none
+			}
+			
+			.page-list li a .title {
+				font-size: 25px;
+				padding: 5px 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				-o-text-overflow: ellipsis;
+				-webkit-text-overflow: ellipsis;
+				-moz-text-overflow: ellipsis;
+				white-space: nowrap
+			}
+			
+			.page-list li a .from {
+				float: left
+			}
+			
+			.page-list li a .time {
+				float: right
+			}
+			
+			.page-list li a .digest {
+				font-size: 15px;
+				padding: 10px 0 0;
+				line-height: 25px;
+				word-break: break-all;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden
+			}
+			
+			.page-bar {
+				width: 250px;
+				margin: 0 auto 30px
+			}
+			
+			.page-bar li {
+				display: inline-block;
+				height: 36px;
+				padding: 0;
+				border: 1px solid #ddd
+			}
+			
+			.page-bar li a {
+				width: 50px;
+				height: 36px;
+				padding: 10px;
+				line-height: 36px;
+				color: #383838;
+				cursor: pointer
+			}
+			
+			.page-bar select {
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+				padding: 0 10px;
+				height: 34px;
+				border: none
+			}
+			
+			.page-bar .disabled {
+				background-color: #dedede
+			}
+			
+			.page-bar .disabled a {
+				color: #fff
+			}
+			
+			.menulist {
+				color: #fff
+			}
+			
+			.menulist li {
+				float: left;
+				width: 33.333333%;
+				height: 40px;
+				line-height: 40px;
+				text-align: center
+			}
+			
+			.menulist li a {
+				display: block;
+				width: 100%;
+				height: 40px;
+				color: #fff;
+				cursor: pointer
+			}
+			
+			.menulist li a:active {
+				background-color: #eee
+			}
+			
+			@media all and (min-width:960px) {
+				.menulist li,
+				.menulist li a:active {
+					height: 60px;
+					line-height: 60px
+				}
+			}
+			
+			.about-container {
+				padding: 15px
+			}
+			
+			.about-container p {
+				line-height: 30px;
+				text-indent: 2em
+			}
+			
+			.about-container img {
+				display: block;
+				max-width: 100%;
+				margin: 0 auto
+			}
+			
+			ul.donate li {
+				display: inline-block;
+				padding: 10px
+			}
+			
+			.blog-container {
+				padding: 15px;
+				overflow-x: hidden
+			}
+			
+			.donate {
+				display: block;
+				margin: 0 auto
+			}
+			
+			@media all and (max-width:960px) {
+				body,
+				html {
+					overflow-x: hidden
+				}
+			}
+			
+			.contact-section h2 {
+				text-align: center
+			}
+			
+			.contact-section input {
+				width: 32.9%;
+				height: 40px;
+				text-indent: 10px;
+				border: 1px solid #7da180
+			}
+			
+			.contact-section textarea {
+				display: block;
+				width: 100%;
+				height: 300px;
+				margin: 20px 0;
+				resize: none;
+				border: 1px solid #7da180
+			}
+			
+			.contact-section .send {
+				display: block;
+				width: 200px;
+				height: 50px;
+				background-color: #16b4e9;
+				color: #fff;
+				margin: 10px auto;
+				cursor: pointer
+			}
+			
+			.comment ul.comment-list {
+				margin-top: 20px;
+				list-style: none
+			}
+			
+			.comment ul.comment-list>li {
+				min-height: 80px
+			}
+			
+			.comment ul.comment-list>li img {
+				float: left;
+				width: 60px;
+				height: 60px;
+				margin-top: 20px;
+				margin-right: 10px;
+				border-radius: 50%
+			}
+			
+			ul.comment-list>li .comment-content {
+				margin-left: 70px;
+				margin-right: 70px
+			}
+			
+			ul.comment-list>li .comment-content h1 {
+				display: inline-block;
+				font-size: 18px
+			}
+			
+			ul.comment-list>li .comment-content span {
+				color: #aaa;
+				margin-left: 30px
+			}
+			
+			ul.comment-list>li .comment-content p {
+				font-size: 15px;
+				line-height: 30px
+			}
+			
+			ul.comment-list>li .comment-content .reply {
+				float: right;
+				width: 50px;
+				height: 30px;
+				margin-top: 20px;
+				background-color: #16b4e9;
+				color: #fff;
+				cursor: pointer
+			}
+			
+			ul.reply-list {
+				margin-left: 70px;
+				margin-right: 70px;
+				color: #aaa;
+				background-color: #eee
+			}
+			
+			ul.reply-list li {
+				padding: 10px
+			}
+			
+			@media all and (max-width:960px) {
+				.contact-section input {
+					width: 100%;
+					margin: 10px 0
+				}
+				.contact-section textarea {
+					height: 200px
+				}
+				ul.comment-list>li .comment-content {
+					margin-left: 30px;
+					margin-right: 30px
+				}
+				ul.comment-list>li .comment-content .reply {
+					margin-top: 0
+				}
+				ul.comment-list>li .comment-content p {
+					margin-top: 30px
+				}
+				.comment ul.comment-list>li img,
+				ul.reply-list {
+					margin-left: 30px
+				}
+				ul.reply-list {
+					margin-right: 30px
+				}
+			}
+			
+			.great {
+				width: 80%;
+				margin: 10px auto;
+				padding: 30px 0;
+				font-size: 20px;
+				text-align: center;
+				line-height: 25px;
+				color: #fff;
+				background-color: #16b4e9
+			}
+			
+			iframe {
+				border: none
+			}
+		</style>
+	</head>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <h1>你好，世界！</h1>
+	<body>
+		<div class="layout_left clear">
+			<div class="author">
+				<img class="avatar" src="images/kenan.jpg"/>
+				<h2 class="name">LonelyWalker78</h2>
+				<p></p>
+			</div>
+			<footer class="copyright">
+				<p> Copyright© 2017 LonelyWalker78 版权所有</p>
+			</footer>
+		</div>
+		<div class="layout_right">
+			<ul class="page-list">
+				<li>
+					<a href="#">
+						<h2 class="title">这是第一篇文章</h2>
+						<div class="digest">
+							这是文字介绍
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<h2 class="title">这是第二篇文章</h2>
+						<div class="digest">
+							这是文字介绍
+						</div>
+					</a>
+				</li>
+			</ul>
+			<nav style="width: 250px;margin: 0 auto;">
+				<ul class="pagination">
+					<li>
+						<a href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li class="active">
+						<a href="#">1</a>
+					</li>
+					<li>
+						<a href="#">2</a>
+					</li>
+					<li>
+						<a href="#">3</a>
+					</li>
+					<li>
+						<a href="#">4</a>
+					</li>
+					<li>
+						<a href="#">5</a>
+					</li>
+					<li>
+						<a href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+		</script>
+	</body>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
 </html>
