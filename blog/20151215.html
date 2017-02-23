@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>MUI离线原生打包（Android Studio）</title>
+		<style type="text/css">
+			html,body {
+				margin: 0;
+				padding: 10px;
+				background-color: rgb(239,239,239);
+			}
+			@media (max-width: 480px) {
+				.content > .article {
+					padding: 15px;
+				}
+			}
+			@media (max-width: 820px) {
+				
+			}
+			.content {
+				width: 100%;
+				max-width: 800px;
+				margin: 0 auto;
+				background-color: #fff;
+				font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;
+			}
+			.article {
+				padding: 30px;
+			}
+			h1 {
+				text-align: center;
+				word-break:break-all;
+				word-wrap: break-word;
+			}
+			section > p {
+				word-break:break-all;
+				word-wrap: break-word;
+			}
+			section > img {
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<div class="article">
+				<h1>MUI离线原生打包（Android Studio）</h1>
+				<section>
+					<h3>前言</h3>
+					<p>网上有很多文章在说html5将完全取代app原生的地位，虽然不太实际，但足以说明html5的火热程度，本文结合DCloud的5+ SDK，介绍如何将MUI项目通过Android Studio打包成安卓的APK安装包。</p>
+					<h3>准备工作</h3>
+					<p>首先从官网<a href="http://www.dcloud.io/" target="_blank">http://www.dcloud.io/</a>下载HBuilder，用该软件创建一个HTML5的移动APP项目，具体可去官网查看相应的文档。</p>
+					<p>接下来就是如何将写好的HBuilder引入到我们的安卓项目中。</p>
+					<p>先到<a href="http://ask.dcloud.net.cn/article/103" target="_blank">http://ask.dcloud.net.cn/article/103</a>下载HBuilder离线打包Android版SDK，SDK里面有个HBuilder-Integrate工程我们将会用到，接下来开始了~~~~~</p>
+					<p>先用Android Studio创建一个新项目（MyFirstMUI）。</p>
+					<h3>第一步、导入jar包</h3>
+					<p>可从HBuilder-Integrate工程的libs中选择，具体要导入哪些jar包可从SDK中的Feature-Android.xls中查看。</p>
+					<h3>第二步、加入APP资源</h3>
+					<img src="http://s5.51cto.com/wyfs02/M02/77/D9/wKioL1ZvtELyfM-VAAAxEtCfurI070.png" style="max-width: 291px;">
+					<p>①在工程目录下的创建assets文件夹，并在assets目录下添加apps目录</p>
+					<p>②在apps目录下创建应用ID同名目录</p>
+					<p>③在应用ID同名目录下创建www目录</p>
+					<p>④将应用资源和应用配置文件（manifest.json）拷贝到www目录下</p>
+					<p><strong>其中“H5B1EA68D”目录名称为应用manifest.json中的id名称，务必一致。</strong></p>
+					<p>接下来添加control.xml文件和properties.xml文件到assets->data目录下</p>
+					<img src="http://s2.51cto.com/wyfs02/M00/77/D9/wKioL1Zvt2iSYvWSAAA3cBScjBo255.png" style="max-width: 290px;">
+					<p>其中control.xml文件的appid值为HBuilder应用的appid，必须与应用manifest.json中的id值完全一致；appver为应用的版本号，用于应用资源的升级，必须保持与manifest.json中的version -> name值完全一致；version值为应用基座版本号（plus.runtime.innerVersion返回的值），不要随意修改。</p>
+					<p>Properites文件用于对应JS类名和Android包名的对应关系，用户可以根据开发项目使用到的插件对文件进行添加或删改。</p>
+					<p>这两个文件都可从HBuilder-Integrate工程中拷贝过来进行修改。</p>
+					<h3>第三步、复制所需的资源文件到drawable和layout文件夹中</h3>
+					<img src="http://s1.51cto.com/wyfs02/M01/77/DA/wKioL1ZvvyLBz7BnAAAxff-ydck090.png" style="max-width: 266px;">
+					<h3>第四步、修改AndroidManifest.xml文件</h3>
+					<p>文件中的versionCode与manifest.json中version -> code值一致；versionName与manifest.json中version -> name值一致。</p>
+					<img src="http://s4.51cto.com/wyfs02/M01/7A/13/wKiom1ah7_iz1TlcAACBd3oNusk243.png" style="max-width: 695px;">
+					<p>根据HBuilder-Integrate工程中的AndroidManifest.xml文件添加所需的功能权限。</p>
+					<p>如果只是需要基本功能的话可以只添加上述的基本权限。</p>
+					<img src="http://s2.51cto.com/wyfs02/M02/7A/14/wKiom1ah8Q7xEyTHAACYOxLDTeg823.png" style="max-width: 658px;">
+					<p>声明必须的这两个activity（其中一个为启动的activity），其他可根据HBuilder-Integrate工程中的AndroidManifest.xml文件进行相应添加。</p>
+					<h3>第五步、添加RInfomation文件</h3>
+					<img src="http://s1.51cto.com/wyfs02/M01/77/DB/wKiom1ZvvVnDg3nYAAAzI-bPSMI728.png" style="max-width: 291px;">
+					<img src="http://s5.51cto.com/wyfs02/M02/7A/13/wKioL1ah8mngbMQ0AACHSqzs8Hs284.png" style="max-width: 709px;">
+					<p><strong>注意RInfomation要连同其目录一起复制进项目中。</strong></p>
+					<p>需要其他功能可根据HBuilder-Integrate工程中相应的RInfomation文件进行添加。</p>
+					<p>如果缺少对应资源文件，大家可以从HBuilder-Integrate工程中获取。具体可查看文档http://ask.dcloud.net.cn/article/81</p>
+					<p>到此结束，附上我自己写的例子大家可以下载下来参考</p>
+					<p>下载地址<a href="http://down.51cto.com/data/2127178" target="_blank">http://down.51cto.com/data/2127178</a></p>
+					<h3>备注</h3>
+					<p>如果你想要在一个安卓项目中引入多个HBuilder写成的APP模块，同样先将资源拷贝到assets目录下，如下在control.xml文件中配置多个apps，即可引用多个模块。</p>
+					<img src="http://s4.51cto.com/wyfs02/M02/77/DA/wKioL1ZvwdTSmg4fAAAjXoFdTmk164.png" style="max-width: 281px;">
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
