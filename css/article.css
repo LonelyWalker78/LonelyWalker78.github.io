@@ -26,6 +26,9 @@ html,body {
 	word-break:break-all;
 	word-wrap: break-word;
 }
+section {
+	margin-top: 50px;
+}
 section > p {
 	word-break:break-all;
 	word-wrap: break-word;
