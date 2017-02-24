@@ -42,3 +42,38 @@ section > img {
 .code-blue {
 	color: rgb(102,217,239);
 }
+.lcj-code {
+	width: 100%;
+	overFlow-x: scroll;
+	overFlow-y: hidden;
+	white-space: pre;
+	line-height: 1;
+	background: #272822;
+	padding: 10px 0;
+}
+.lcj-code span {
+	font-family: 'Courier New';
+	font-size: 10pt;
+	color: #F8F8F2;
+}
+.lcj-code .sc1 {
+	color: #F92672;
+}
+.lcj-code .sc3 {
+	color: #A6E22E;
+}
+.lcj-code .sc6 {
+	color: #E6DB74;
+}
+.lcj-code .sc43 {
+	color: #75715E;
+}
+.lcj-code .sc47 {
+	color: #F92672;
+}
+.lcj-code .sc48 {
+	color: #E6DB74;
+}
+.lcj-code .sc49 {
+	color: #E6DB74;
+}

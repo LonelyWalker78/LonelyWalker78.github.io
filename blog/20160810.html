@@ -13,15 +13,40 @@
 				<section>
 					<h3>第一种方法：</h3>
 					<p>1、给外层div容器设置背景图片</p>
-					<p>style="height: 100%;background: url(../../images/10.jpg);background-size: 100% 100%;"</p>
+					<div class="lcj-code"><span class="sc0"> .bg {
+     height: 100%;
+     background: url(../../images/10.jpg);
+     background-size: 100% 100%;
+ }
+</span></div>
 					<p>2、监听键盘弹出事件，弹出时调整容器的高度以适应背景图片</p>
+					<p>给body标签设置监听事件</p>
+					<div class="lcj-code"><span class="sc1"> &lt;body</span><span class="sc8"> </span><span class="sc3">onresize</span><span class="sc8">=</span><span class="sc6">"windowSizeChange();"</span><span class="sc1">&gt;</span></div>
+					<p>使用js动态调整容器高度</p>
+					<div class="lcj-code"><span class="sc47"> var</span><span class="sc41"> </span><span class="sc46">oglHeight</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">document.querySelector</span><span class="sc50">(</span><span class="sc48">"body"</span><span class="sc50">).</span><span class="sc46">offsetHeight</span><span class="sc50">;</span><span class="sc41">
+</span><span class="sc47"> var</span><span class="sc41"> </span><span class="sc46">windowSizeChange</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41"> </span><span class="sc43">//弹出键盘时调整页面的高度，防止背景图片被挤压出空白区域</span><span class="sc41">
+    </span><span class="sc47"> var</span><span class="sc41"> </span><span class="sc46">tempHeight</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">document.querySelector</span><span class="sc50">(</span><span class="sc48">"body"</span><span class="sc50">).</span><span class="sc46">offsetHeight</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc47"> if</span><span class="sc50">(</span><span class="sc46">tempHeight</span><span class="sc41"> </span><span class="sc50">==</span><span class="sc41"> </span><span class="sc46">oglHeight</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46"> console.info</span><span class="sc50">(</span><span class="sc48">"屏幕键盘隐藏"</span><span class="sc50">);</span><span class="sc41">
+        </span><span class="sc46"> document.getElementById</span><span class="sc50">(</span><span class="sc49">'content'</span><span class="sc50">).</span><span class="sc46">style.height</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc48">"100%"</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc50"> }</span><span class="sc41"> </span><span class="sc47">else</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46"> console.info</span><span class="sc50">(</span><span class="sc48">"键盘显示"</span><span class="sc50">);</span><span class="sc41">
+        </span><span class="sc46"> document.getElementById</span><span class="sc50">(</span><span class="sc49">'content'</span><span class="sc50">).</span><span class="sc46">style.height</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc48">"390px"</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc50"> }</span><span class="sc41">
+</span><span class="sc50"> };</span></div>
 					<h3>第二种方法：</h3>
 					<p>背景固定，使用:before</p>
-					<pre>
-						<code>
-							
-						</code>
-					</pre>
+					<div class="lcj-code"><span class="sc0"> body:before {
+     content: "";
+     position: fixed;
+     z-index: -1;
+     top: 0;
+     right: 0;
+     bottom: 0;
+     left: 0;
+     background: url(../../images/10.jpg) center 0 no-repeat;
+     background-size: cover;
+ }</span></div>
 				</section>
 			</div>
 		</div>
