@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>CSS的一些小技巧（不断更新中...）</title>
+		<link rel="stylesheet" type="text/css" href="../css/article.css">
+	</head>
+	<body>
+		<div class="content">
+			<div class="article">
+				<h1>CSS的一些小技巧（不断更新中...）</h1>
+				<section>
+					<h3>前言</h3>
+					<p>CSS可谓是博大精深，在开发过程中经常会遇到一些问题，谨用此文来记录本人所遇到过的一些问题，以便日后查阅</p>
+					<p class="item-bg">1、input标签在手机上点击无法获得焦点：没有设置type="text"。</p>
+					<p class="item-bg">2、弹性盒模型</br>
+&nbsp;&nbsp;&nbsp;&nbsp;（1） 安卓4.1上内容缩小靠左，使用下面属性水平居中</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.f-hc{-webkit-box-pack:center;-webkit-justify-content:center;}/*水平居中*/</br>
+&nbsp;&nbsp;&nbsp;&nbsp;（2） 弹性盒子模型div块因为文字大小而被撑开，没有平均分配：设置子元素width:0%,让宽度由 box-flex 属性来分配。</p>
+					<p class="item-bg">3、DIV内图片文字水平对齐</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;（1） 图片和文字各放入独立的块级容器。然后以padding-top或margin-top来控制。</br>
+					&nbsp;&nbsp;&nbsp;&nbsp;（2） 对图片添加样式vertical-align:middle;如：&lt;div&gt;&lt;img src="url" style="vertical-align:middle;" /&gt;文字&lt;/div&gt;
+					</p>
+					<p class="item-bg">4、把图片作为背景：如果你的图片只是用来作为小图标放在文字的左侧，那就推荐用这个方法，图片设置成文字的背景，不循环，定位在左侧上下居中，文字向左padding图片的宽度加几个像素。</br>下面是示例代码：</p>
+					<div class="lcj-code"><span class="sc1">&lt;style&gt;</span><span class="sc0">
+a img {
+    border:none
+}
+.testTXT{
+    height:60px;
+    line-height:60px;
+    padding-left:65px;
+    background:url(http://www.zc144.com/download/Template.jpg) no-repeat left center;
+}
+</span><span class="sc1">&lt;/style&gt;</span><span class="sc0">
+
+</span><span class="sc1">&lt;div</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"testdiv"</span><span class="sc1">&gt;</span><span class="sc0">
+    </span><span class="sc1">&lt;div</span><span class="sc8"> </span><span class="sc3">class</span><span class="sc8">=</span><span class="sc6">"testTXT"</span><span class="sc1">&gt;</span><span class="sc0">
+        </span><span class="sc1">&lt;span&gt;</span><span class="sc0">这里是文字,看看文字对齐了没</span><span class="sc1">&lt;/span&gt;</span><span class="sc0">
+    </span><span class="sc1">&lt;/div&gt;</span><span class="sc0">
+</span><span class="sc1">&lt;/div&gt;</span></div>
+					
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
