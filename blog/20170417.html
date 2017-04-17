@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-sacle=1,user-saclable=no" />
+		<title>利用HTML5+实现支付宝“到位”功能——图片Icon的下载</title>
+		<link rel="stylesheet" type="text/css" href="../css/article.css">
+	</head>
+	<body>
+		<div class="content">
+			<div class="article">
+				<h1>利用HTML5+实现支付宝“到位”功能——图片Icon的下载</h1>
+				<section>
+					<p>上一篇文章介绍了<a href="20170409.html" target="_blank">利用HTML5+实现支付宝“到位”功能</a>的例子，这篇文章来看看其中最重要的一个功能点，那就是图片Icon的下载，涉及到网络图片加载、利用canvas保存成本地图片文件等知识点，接下来让我们去一起探索吧。</p>
+					<h3>原理：</h3>
+					<p>不管我们要实现什么样的功能，第一步肯定是要先思考其原理，明白了如何实现之后我们才能开工呀！所以现在我们先来梳理一下“图片Icon的下载”功能的实现原理：</p>
+					<p>首先明确我们要实现的功能是通过获取到的图片网络地址，将图片下载到本地，然后将下载好的本地图片文件显示到地图上，当点击图片时，放大该图片。而这里具体的实现方法就是将一张网络图片绘制到canvas上，并且是绘制成一大一小两张图片，绘制好之后将两张图片保存到本地，完成之后先显示小的图片，当点击图片时，将图片加载成另一张大图显示即可实现放大效果。</p>
+					<h3>一、网络图片的加载：</h3>
+					<p>我们先来看看网络图片的加载：</p>
+					<div class="lcj-code"><span class="sc46">owner.loadIcon</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">(</span><span class="sc46">marker</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">image_url</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">big</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">hb_path</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc47">if</span><span class="sc41"> </span><span class="sc50">(</span><span class="sc46">big</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">hb_path</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc49">'_downloads/screen/big'</span><span class="sc41"> </span><span class="sc50">+</span><span class="sc41"> </span><span class="sc46">hex_md5</span><span class="sc50">(</span><span class="sc46">image_url</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">+</span><span class="sc41"> </span><span class="sc49">'.png'</span><span class="sc50">;</span><span class="sc41"> </span><span class="sc43">//HBuilder平台路径</span><span class="sc41">
+    </span><span class="sc50">}</span><span class="sc41"> </span><span class="sc47">else</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">hb_path</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc49">'_downloads/screen/'</span><span class="sc41"> </span><span class="sc50">+</span><span class="sc41"> </span><span class="sc46">hex_md5</span><span class="sc50">(</span><span class="sc46">image_url</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">+</span><span class="sc41"> </span><span class="sc49">'.png'</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc50">}</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">sd_path</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">plus.io.convertLocalFileSystemURL</span><span class="sc50">(</span><span class="sc46">hb_path</span><span class="sc50">);</span><span class="sc41"> </span><span class="sc43">//SD卡绝对路径</span><span class="sc41">
+    </span><span class="sc43">//temp用于判断图片文件是否存在</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">temp</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">new</span><span class="sc41"> </span><span class="sc46">Image</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">temp.src</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">sd_path</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">temp.onload</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc43">// 1存在, 则直接显示</span><span class="sc41">
+        </span><span class="sc46">marker.setIcon</span><span class="sc50">(</span><span class="sc46">hb_path</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc50">};</span><span class="sc41">
+    </span><span class="sc46">temp.onerror</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc43">// 2不存在, 则下载图片</span><span class="sc41">
+        </span><span class="sc43">//使用src加载，然后再保存到本地</span><span class="sc41">
+        </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">obj</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+            </span><span class="sc46">marker</span><span class="sc50">:</span><span class="sc41"> </span><span class="sc46">marker</span><span class="sc50">,</span><span class="sc41">
+            </span><span class="sc46">image_url</span><span class="sc50">:</span><span class="sc41"> </span><span class="sc46">image_url</span><span class="sc50">,</span><span class="sc41">
+            </span><span class="sc46">hb_path</span><span class="sc50">:</span><span class="sc41"> </span><span class="sc46">hb_path</span><span class="sc50">,</span><span class="sc41">
+            </span><span class="sc46">big</span><span class="sc50">:</span><span class="sc41"> </span><span class="sc46">big</span><span class="sc41">
+        </span><span class="sc50">}</span><span class="sc41">
+        </span><span class="sc46">taskArr.push</span><span class="sc50">(</span><span class="sc46">obj</span><span class="sc50">);</span><span class="sc41">
+        </span><span class="sc43">//启动下载</span><span class="sc41">
+        </span><span class="sc47">if</span><span class="sc41"> </span><span class="sc50">(!</span><span class="sc46">isStartTask</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+            </span><span class="sc46">isStartTask</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">true</span><span class="sc50">;</span><span class="sc41">
+            </span><span class="sc46">owner.startTask</span><span class="sc50">();</span><span class="sc41">
+        </span><span class="sc50">}</span><span class="sc41">
+    </span><span class="sc50">};</span><span class="sc41">
+</span><span class="sc50">};</span></div>
+					<p>从上面代码可以看到，我使用md5加密图片的网络地址来作为保存在本地的文件名，在应用拿到图片网络地址之后，先将地址转化为对应的手机本地的绝对路径（文档看这里→<a href="http://www.html5plus.org/doc/zh_cn/io.html#plus.io.convertLocalFileSystemURL" target="_blank">http://www.html5plus.org/doc/zh_cn/io.html#plus.io.convertLocalFileSystemURL</a>）。</p>
+					<p>然后使用Image对象进行加载，（1）如果加载成功说明本地已经有下载过的图片文件了，无须再重复下载，直接使用即可；（2）如果加载失败，则说明本地没有图片文件，需要我们去下载并保存到手机本地，这时先利用Image对象加载网络图片，加载成功之后就可以将图片绘制到canvas上了，这里我利用任务队列的方法进行加载，防止同时下载多张图片可能导致内存过大的问题。</p>
+					<div class="lcj-code"><span class="sc44">/**
+ * 图片任务下载 
+ * 递归调用方式保持始终只有一张网络图片在进行加载保存操作,避免批量创建Bitmap对象导致内存过大
+ */</span><span class="sc41">
+</span><span class="sc46">owner.startTask</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+    </span><span class="sc47">if</span><span class="sc41"> </span><span class="sc50">(</span><span class="sc46">taskArr.length</span><span class="sc41"> </span><span class="sc50">==</span><span class="sc41"> </span><span class="sc45">0</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">isStartTask</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">false</span><span class="sc50">;</span><span class="sc41">
+        </span><span class="sc47">return</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc50">}</span><span class="sc41">
+    </span><span class="sc43">//从任务集合中取一个任务</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">obj</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">taskArr.shift</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">temp</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">new</span><span class="sc41"> </span><span class="sc46">Image</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">temp.src</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">obj.image_url</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">temp.onload</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">owner.draw</span><span class="sc50">(</span><span class="sc46">obj.marker</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">temp</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">obj.hb_path</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">obj.big</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc50">};</span><span class="sc41">
+    </span><span class="sc46">temp.onerror</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">console.log</span><span class="sc50">(</span><span class="sc49">'加载网络图片失败=='</span><span class="sc50">);</span><span class="sc41">
+        </span><span class="sc46">owner.startTask</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc50">};</span><span class="sc41">
+</span><span class="sc50">};</span></div>
+					<h3>二、将Image对象绘制到canvas上：</h3>
+					<p>上一步我们已经将网络图片加载到了Image对象上了，接下来我们就可以将Image对象绘制到canvas上了。</p>
+					<p>我们可以注意到，支付宝的到位中的图片显示其实不单单只是显示一张圆形的图片，在图片的外围还有一个纯色的边框，这里我是先在canvas上绘制一个底层的圆作为图片的边框，然后在这基础之上再绘制一个圆形的图片叠加上去，从而产生图片边框效果。</p>
+					<p>绘制完成之后，通过canvas.toDataURL('image/png')可以很容易地将图片转化为base64数据，接下来我们下一步就是要将图片对应的base64数据保存成本地文件。</p>
+					<div class="lcj-code"><span class="sc42">/*将Image对象绘制到canvas上，以便保持成本地图片文件*/</span><span class="sc41">
+</span><span class="sc46">owner.draw</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">(</span><span class="sc46">marker</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">obj</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">hb_path</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">big</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc45">90</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">borderColor</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc48">"#0FC8FF"</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc47">if</span><span class="sc50">(</span><span class="sc46">big</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41"> </span><span class="sc43">// 判断当前要绘制的是大图片还是小图片从而赋予相应的尺寸</span><span class="sc41">
+        </span><span class="sc46">size</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc45">110</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc50">}</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">canvas</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">document.createElement</span><span class="sc50">(</span><span class="sc49">'canvas'</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">context</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">canvas.getContext</span><span class="sc50">(</span><span class="sc48">"2d"</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc46">canvas.width</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">canvas.height</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc43">// 绘制底层的圆作为图片的边框</span><span class="sc41">
+    </span><span class="sc46">context.beginPath</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">context.arc</span><span class="sc50">(</span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">0</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">2</span><span class="sc41"> </span><span class="sc50">*</span><span class="sc41"> </span><span class="sc46">Math.PI</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc46">context.fillStyle</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">borderColor</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">context.closePath</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">context.fill</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc43">// 绘制一个圆，用于显示图片</span><span class="sc41">
+    </span><span class="sc46">context.beginPath</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">context.arc</span><span class="sc50">(</span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">/</span><span class="sc45">2</span><span class="sc50">-</span><span class="sc45">5</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">0</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">2</span><span class="sc41"> </span><span class="sc50">*</span><span class="sc41"> </span><span class="sc46">Math.PI</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc43">// 用离屏Canvas，设置好宽高后绘制图片进去，然后作为.createPattern()的渲染对象</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">into</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">document.createElement</span><span class="sc50">(</span><span class="sc48">"canvas"</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">ctx2</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">into.getContext</span><span class="sc50">(</span><span class="sc49">'2d'</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc46">into.width</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">into.height</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">ctx2.drawImage</span><span class="sc50">(</span><span class="sc46">obj</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">0</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc45">0</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">size</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc43">// 创建图片纹理</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">pattern</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">context.createPattern</span><span class="sc50">(</span><span class="sc46">into</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc49">'no-repeat'</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc43">// 使用图片纹理填充绘制的圆</span><span class="sc41">
+    </span><span class="sc46">context.fillStyle</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">pattern</span><span class="sc50">;</span><span class="sc41">
+    </span><span class="sc46">context.closePath</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">context.fill</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc43">// 将canvas保存成本地图片文件</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">data</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc46">canvas.toDataURL</span><span class="sc50">(</span><span class="sc49">'image/png'</span><span class="sc50">);</span><span class="sc41">
+    </span><span class="sc46">owner.saveFile</span><span class="sc50">(</span><span class="sc46">marker</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">data</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">hb_path</span><span class="sc50">);</span><span class="sc41">
+</span><span class="sc50">};</span></div>
+					<h3>三、将base64数据保存成本地文件：</h3>
+					<div class="lcj-code"><span class="sc46">owner.saveFile</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">(</span><span class="sc46">marker</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">data</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc46">path</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+    </span><span class="sc47">var</span><span class="sc41"> </span><span class="sc46">bitmap</span><span class="sc41"> </span><span class="sc50">=</span><span class="sc41"> </span><span class="sc47">new</span><span class="sc41"> </span><span class="sc46">plus.nativeObj.Bitmap</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc46">bitmap.loadBase64Data</span><span class="sc50">(</span><span class="sc46">data</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">bitmap.save</span><span class="sc50">(</span><span class="sc46">path</span><span class="sc50">,</span><span class="sc41"> </span><span class="sc50">{},</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">(</span><span class="sc46">i</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+            </span><span class="sc46">marker.setIcon</span><span class="sc50">(</span><span class="sc46">path</span><span class="sc50">);</span><span class="sc41">
+            </span><span class="sc46">bitmap.clear</span><span class="sc50">();</span><span class="sc41">
+            </span><span class="sc46">owner.startTask</span><span class="sc50">();</span><span class="sc41">
+        </span><span class="sc50">},</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">(</span><span class="sc46">e</span><span class="sc50">)</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+            </span><span class="sc46">console.log</span><span class="sc50">(</span><span class="sc48">"保存图片到本地失败"</span><span class="sc50">);</span><span class="sc41">
+            </span><span class="sc46">bitmap.clear</span><span class="sc50">();</span><span class="sc41">
+            </span><span class="sc46">owner.startTask</span><span class="sc50">();</span><span class="sc41">
+        </span><span class="sc50">});</span><span class="sc41">
+    </span><span class="sc50">},</span><span class="sc41"> </span><span class="sc47">function</span><span class="sc50">()</span><span class="sc41"> </span><span class="sc50">{</span><span class="sc41">
+        </span><span class="sc46">console.log</span><span class="sc50">(</span><span class="sc48">"保存图片失败"</span><span class="sc50">);</span><span class="sc41">
+        </span><span class="sc46">bitmap.clear</span><span class="sc50">();</span><span class="sc41">
+        </span><span class="sc46">owner.startTask</span><span class="sc50">();</span><span class="sc41">
+    </span><span class="sc50">});</span><span class="sc41">
+</span><span class="sc50">};</span></div>
+					<p>这里使用的是HTML5+提供的Bitmap原生图片对象来进行保存图片文件的操作（文档看这里→<a href="http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Bitmap" target="_blank">http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Bitmap</a>），先使用loadBase64Data方法加载base64数据，加载成功后调用save方法将图片保存到指定的路径。</p>
+					<h3>结语：</h3>
+					<p>文章到这里也就结束啦，感谢各位看官的支持！在此奉上：</p>
+					<p>demo代码地址：戳这里<a href="https://github.com/LonelyWalker78/daowei" target="_blank">https://github.com/LonelyWalker78/daowei</a></p>
+					<p>个人GitHub地址：戳这里<a href="https://github.com/LonelyWalker78" target="_blank">https://github.com/LonelyWalker78</a></p>
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
